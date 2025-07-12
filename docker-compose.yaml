@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
 
@@ -8,17 +7,17 @@ services:
     container_name: finemeet_postgres_container
     restart: unless-stopped
     environment:
-      POSTGRES_USER: finemeet_postgres
-      POSTGRES_PASSWORD: finemeet_postgres
-      POSTGRES_DB: user_service_postgres_db
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:${DB_PORT}"
     networks:
       - finemeet-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U finemeet"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +28,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:${REDIS_PORT}"
     networks:
       - finemeet-network
     volumes:
@@ -54,11 +53,46 @@ services:
     networks:
       - finemeet-network
 
+  # 🧑‍💻 User Service
+#  user-service:
+#    image: user-service:latest
+#    container_name: user-service
+#    build:
+#      context: ./user-service
+#      dockerfile: Dockerfile
+#    ports:
+#      - "${USER_SERVICE_SERVER_PORT}:${USER_SERVICE_SERVER_PORT}"
+#    environment:
+#      # App profile
+#      - SPRING_PROFILES_ACTIVE=${USER_SERVICE_SPRING_PROFILES_ACTIVE}
+#      - USER_SERVICE_SERVER_PORT=${USER_SERVICE_SERVER_PORT}
+#      # DB config
+#      - DB_HOST=${DB_HOST}
+#      - DB_PORT=${DB_PORT}
+#      - DB_USERNAME=${DB_USERNAME}
+#      - DB_PASSWORD=${DB_PASSWORD}
+#      - DB_NAME=${USER_SERVICE_DATABASE_NAME}
+#      # Redis config
+#      - REDIS_HOST=${REDIS_HOST}
+#      - REDIS_PORT=${REDIS_PORT}
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl -f http://localhost:1113/actuator/health || exit 1" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#    volumes:
+#      - user-service-maven-cache:/root/.m2
+#    networks:
+#      - finemeet-network
 
 networks:
   finemeet-network:
     driver: bridge
 
 volumes:
+#  user-service-maven-cache:
   pgdata:
   redisdata:
