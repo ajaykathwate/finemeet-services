@@ -3,14 +3,13 @@ package com.finemeet.userservice.entity;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,17 +22,15 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID addressId;
 
-    @Column(name = "country", nullable = false)
-    private String country;
+    private String street;
 
-    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "line", nullable = false)
-    private String line;
+    private String state;
 
-    @Column(name = "postcode", nullable = false)
     private String postcode;
+
+    private String country;
 
     @Override
     public boolean equals(Object o) {
@@ -58,6 +55,11 @@ public class Address implements Serializable {
     public String toString() {
         return "Address{" +
                 "id=" + addressId +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", country='" + country + '\'' +
                 '}';
     }
 }
