@@ -8,10 +8,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDto {
+public class AddressResponseDto {
     private UUID addressId;
-    private String country;
+    private String street;
     private String city;
-    private String line;
+    private String state;
     private String postcode;
+    private String country;
 }

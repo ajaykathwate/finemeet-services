@@ -17,8 +17,7 @@ public class UserProfileResponseDto {
     private String username;
     private LocalDate birthDate;
     private String phoneNumber;
-    private boolean isActive;
-    private AddressDto address;
+    private AddressResponseDto address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

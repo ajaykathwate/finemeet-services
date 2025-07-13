@@ -1,6 +1,7 @@
 package com.finemeet.userservice.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
@@ -21,15 +22,13 @@ public class UserProfileRequestDto {
     @NotBlank
     private String username;
 
-    @NotBlank
     @Past
+    @NotNull(message = "Birth date is required")
     private LocalDate birthDate;
 
     @Pattern(regexp = "\\+?[0-9]{10,15}", message = "Invalid phone number")
     private String phoneNumber;
 
-    private boolean isActive = true;
-
-    private AddressDto address;
+    private AddressRequestDto address;
 }
 
