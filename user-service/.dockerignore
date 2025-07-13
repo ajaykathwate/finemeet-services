@@ -1,0 +1,25 @@
+# Maven build output
+target/
+
+# IDE settings
+.idea/
+*.iml
+*.classpath
+*.project
+*.settings/
+
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Docker ignore
+.dockerignore
