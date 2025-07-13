@@ -1,0 +1,153 @@
+#
+# Server Properties
+#
+server:
+  port: ${AUTH_SERVICE_SERVER_PORT}
+  tomcat:
+    accept-count: 100            # Keep or adjust based on load
+    max-connections: 8192        # Max sockets Tomcat will accept (default: 8192)
+    threads:
+      max: 200                   # Max worker threads (default: 200)
+      min-spare: 10              # Min threads kept alive (default: 10)
+    connection-timeout: 5000
+
+#
+# Spring Properties
+#
+spring:
+  application:
+    name: user-service
+
+  #
+  # Database Properties
+  #
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: "${DB_USERNAME}"
+    password: "${DB_PASSWORD}"
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc.batch_size: 30
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+        format_sql: true
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+      cache-null-values: false
+
+  #
+  # Redis Properties
+  #
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      timeout: 2000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 4
+          min-idle: 2
+          max-wait: 2000
+        shutdown-timeout: 100
+
+#
+# Management Properties
+#
+management:
+  server:
+    port: ${server.port}
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, shutdown, prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+    shutdown:
+      enabled: true
+    health:
+      enabled: true
+      show-details: always
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+    diskspace:
+      enabled: true
+
+#
+# Spring Doc Properties
+#
+springdoc:
+  api-docs:
+    path: /api/docs/schema
+    enabled: true
+  swagger-ui:
+    path: /api/docs/swagger-ui
+    enabled: true
+
+#
+# JWT Security Properties
+#
+jwt:
+  header: Authorization
+  secret: ${APP_JWT_SECRET}
+  expiration: 86400000 # 1 day
+  refresh:
+    secret: ${APP_JWT_REFRESH_SECRET}
+    expiration: 86400000 # 1 day
+
+#
+# Login Attempts Properties
+#
+login-attempts:
+  max-attempts: 5
+  lockout-duration-minutes: 60
+
+unlock-account-scheduler-cron: '0 0/5 * * * *' # every 5 minutes
+
+#
+# Temporary Cache
+#
+temporary-cache:
+  time:
+    token: 5
+  allow-token-fetch: true
+
+#
+# Logging Properties
+#
+logging:
+  level:
+    root: info
+    org.hibernate.SQL: debug
+    com.finemeet.user-service: debug
