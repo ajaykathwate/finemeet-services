@@ -1,4 +1,4 @@
-package com.finemeet.authservice.api;
+package com.finemeet.authservice.service;
 
 import com.finemeet.authservice.repository.AuthUserRepository;
 import lombok.RequiredArgsConstructor;

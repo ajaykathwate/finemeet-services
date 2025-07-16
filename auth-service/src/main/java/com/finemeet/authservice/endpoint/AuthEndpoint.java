@@ -1,9 +1,12 @@
 package com.finemeet.authservice.endpoint;
 
+import com.finemeet.authservice.dto.ConfirmTokenRequest;
 import com.finemeet.authservice.dto.UserRegistrationRequest;
+import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.exception.dto.ApiResponse;
 import com.finemeet.authservice.exception.dto.ApiResponseCreator;
 import com.finemeet.authservice.token.TokenManager;
+import com.finemeet.authservice.token.TokenVerifier;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ public class AuthEndpoint {
 
     private final ApiResponseCreator apiResponseCreator;
     private final TokenManager tokenManager;
+    private final TokenVerifier tokenVerifier;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRegistrationRequest request) {
@@ -41,6 +45,24 @@ public class AuthEndpoint {
         );
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/verify")
+    public ResponseEntity<ApiResponse> confirmEmail(@RequestParam("token") String token){
+        ConfirmTokenRequest request = new ConfirmTokenRequest(token);
+
+        log.info("Received email confirmation request with token = '{}'", request.token());
+        UserRegistrationResponse registrationResponse = tokenVerifier.verityToken(request);
+        log.info("Email verification completed for token = '{}'", request.token());
+
+        ApiResponse apiResponse = apiResponseCreator.buildResponse(
+            "",
+            true,
+            HttpStatus.CREATED,
+            registrationResponse
+        );
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
 }
