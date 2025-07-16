@@ -1,9 +1,8 @@
 package com.finemeet.authservice.token;
 
 import com.finemeet.authservice.exception.token.IncorrectTokenFormatException;
-import org.springframework.stereotype.Component;
-
 import java.security.SecureRandom;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TokenGenerator {

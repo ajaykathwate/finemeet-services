@@ -1,11 +1,11 @@
 package com.finemeet.authservice.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finemeet.authservice.api.SecurityPrincipalProvider;
+import com.finemeet.authservice.service.jwt.SecurityPrincipalProvider;
 import com.finemeet.authservice.config.SecurityConstants;
-import com.finemeet.authservice.exception.AbsentBearerHeaderException;
-import com.finemeet.authservice.exception.JwtTokenBlacklistedException;
-import com.finemeet.authservice.exception.JwtTokenHasNoUserEmailException;
+import com.finemeet.authservice.exception.jwt.AbsentBearerHeaderException;
+import com.finemeet.authservice.exception.jwt.JwtTokenBlacklistedException;
+import com.finemeet.authservice.exception.jwt.JwtTokenHasNoUserEmailException;
 import com.finemeet.authservice.exception.dto.ApiErrorResponse;
 import com.finemeet.authservice.exception.dto.ApiErrorResponseCreator;
 import com.finemeet.authservice.exception.dto.ErrorDebugMessageCreator;

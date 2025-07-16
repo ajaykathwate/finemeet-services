@@ -1,6 +1,6 @@
 package com.finemeet.authservice.jwt;
 
-import com.finemeet.authservice.exception.JwtTokenHasNoUserEmailException;
+import com.finemeet.authservice.exception.jwt.JwtTokenHasNoUserEmailException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

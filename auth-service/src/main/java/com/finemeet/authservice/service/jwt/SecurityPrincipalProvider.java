@@ -1,4 +1,4 @@
-package com.finemeet.authservice.service;
+package com.finemeet.authservice.service.jwt;
 
 import com.finemeet.authservice.convertor.AuthUserDtoConverter;
 import com.finemeet.authservice.dto.AuthUserDto;
