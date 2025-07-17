@@ -1,4 +1,4 @@
-package com.finemeet.authservice.appconfig;
+package com.finemeet.authservice.config.appconfig;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

@@ -1,6 +1,6 @@
 package com.finemeet.authservice.jwt;
 
-import com.finemeet.authservice.exception.JwtTokenException;
+import com.finemeet.authservice.exception.jwt.JwtTokenException;
 import io.jsonwebtoken.Jwts;
 import java.time.Instant;
 import java.util.Date;

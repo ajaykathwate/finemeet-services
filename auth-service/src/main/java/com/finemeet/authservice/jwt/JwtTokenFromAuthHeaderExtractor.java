@@ -1,6 +1,6 @@
 package com.finemeet.authservice.jwt;
 
-import com.finemeet.authservice.exception.AbsentBearerHeaderException;
+import com.finemeet.authservice.exception.jwt.AbsentBearerHeaderException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;

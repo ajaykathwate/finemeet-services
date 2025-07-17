@@ -1,6 +1,6 @@
 package com.finemeet.authservice.jwt;
 
-import com.finemeet.authservice.exception.JwtTokenBlacklistedException;
+import com.finemeet.authservice.exception.jwt.JwtTokenBlacklistedException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

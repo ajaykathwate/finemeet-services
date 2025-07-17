@@ -1,4 +1,4 @@
-package com.finemeet.authservice.exception;
+package com.finemeet.authservice.exception.jwt;
 
 public class JwtTokenException extends RuntimeException {
 
