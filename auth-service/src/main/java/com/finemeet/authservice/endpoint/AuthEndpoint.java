@@ -5,6 +5,7 @@ import com.finemeet.authservice.dto.UserRegistrationRequest;
 import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.exception.dto.ApiResponse;
 import com.finemeet.authservice.exception.dto.ApiResponseCreator;
+import com.finemeet.authservice.service.UserVerificationService;
 import com.finemeet.authservice.token.TokenManager;
 import com.finemeet.authservice.token.TokenVerifier;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class AuthEndpoint {
     public static final String AUTH_SERVICE_ENDPOINT_URL = "/api/auth/";
 
     private final ApiResponseCreator apiResponseCreator;
-    private final TokenManager tokenManager;
+    private final UserVerificationService userVerificationService;
     private final TokenVerifier tokenVerifier;
 
     @PostMapping("/register")
@@ -31,12 +32,11 @@ public class AuthEndpoint {
         String email = request.getEmail();
 
         log.info("Received registration request for user with email = '{}'", email);
-        String token = tokenManager.generateToken(request);
+        String token = userVerificationService.sendVerificationCode(request);
 
         ApiResponse apiResponse = apiResponseCreator.buildResponse(
             String.format(
-                "Email verification token sent to the user with email = %s%nIf You don't receive an email, " +
-                "please check your spam or may be the email address is incorrect",
+                "A verification email has been sent to %s. If you don't receive it, please check your spam folder or verify your email address.",
                 email
             ),
             true,
