@@ -1,0 +1,27 @@
+sequenceDiagram
+    participant Kafka
+    participant NotificationConsumer
+    participant NotificationBuilder
+    participant Notification
+    participant NotificationContent
+    participant NotificationChannelDelivery
+    participant NotificationEngine
+    participant EmailStrategy
+    participant EmailTemplateDecorator
+
+    Kafka->>NotificationConsumer: receive NotificationRequest JSON
+    NotificationConsumer->>NotificationBuilder: build(request)
+
+    NotificationBuilder->>Notification: create Notification
+    NotificationBuilder->>NotificationChannelDelivery: create 1 per channel
+    NotificationBuilder->>NotificationContent: decorate content object
+
+    NotificationBuilder->>NotificationConsumer: return Notification + Content + Channels
+    NotificationConsumer->>NotificationEngine: notify(Notification, Content, Channels)
+
+    NotificationEngine->>EmailStrategy: send(Notification, EmailContent)
+    EmailStrategy->>EmailTemplateDecorator: render(EmailContent)
+    EmailTemplateDecorator-->>EmailStrategy: HTML Body
+
+    EmailStrategy->>NotificationChannelDelivery: update status = SENT
+    NotificationEngine-->>NotificationConsumer: Done

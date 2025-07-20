@@ -1,0 +1,58 @@
+classDiagram
+direction TB
+    class Notification {
+	    UUID id
+	    UUID recipientId
+	    List~NotificationChannelEnum~ channels
+	    String eventType
+	    LocalDateTime scheduledAt
+	    JSONB metadata
+	    LocalDateTime createdAt
+	    LocalDateTime updatedAt
+    }
+
+    class NotificationContent {
+	    UUID id
+	    Notification notification
+	    NotificationChannelDelivery notificationChannelDelivery
+    }
+
+    class EmailNotificationContent {
+	    String subject
+	    String email
+	    String templateId
+	    Map templateData
+    }
+
+    class SMSNotificationContent {
+	    String phoneNumber
+	    String text
+    }
+
+    class PushNotificationContent {
+	    String deviceToken
+	    String pushTitle
+	    String pushBody
+    }
+
+    class NotificationChannelDelivery {
+	    UUID id
+	    Notification notification
+	    NotificationChannelEnum channel
+	    DeliveryStatusEnum status
+	    String recipientAddress
+	    String errorMessage
+	    int retryCount
+	    LocalDateTime sentAt
+	    LocalDateTime createdAt
+	    LocalDateTime updatedAt
+    }
+
+	<<abstract>> NotificationContent
+
+    Notification "1" --> "*" NotificationChannelDelivery : delivers
+    Notification "1" --> "1" NotificationContent : has
+    NotificationContent <|-- EmailNotificationContent
+    NotificationContent <|-- SMSNotificationContent
+    NotificationContent <|-- PushNotificationContent
+
