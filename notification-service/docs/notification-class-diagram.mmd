@@ -1,0 +1,45 @@
+classDiagram
+direction TB
+
+%% ==== Services ====
+class NotificationService {
+    +void receiveNotification(NotificationRequest payload)
+    +void processNotification(Notification notification)
+}
+
+class NotificationBuilder {
+    +Notification build(NotificationRequest request)
+    +List~NotificationChannelDelivery~ buildDeliveries(Notification notification)
+    +NotificationContent buildContent(Notification notification, NotificationChannelEnum channel)
+}
+
+class NotificationEngine {
+    +void notify(Notification notification, List~NotificationChannelDelivery~ deliveries)
+}
+
+%% ==== Strategy Interfaces and Implementations ====
+class NotificationStrategy {
+    <<interface>>
+    +void send(NotificationChannelDelivery delivery, NotificationContent content)
+}
+
+class EmailStrategy {
+    +void send(NotificationChannelDelivery delivery, EmailNotificationContent content)
+}
+
+class SMSStrategy {
+    +void send(NotificationChannelDelivery delivery, SMSNotificationContent content)
+}
+
+class PushStrategy {
+    +void send(NotificationChannelDelivery delivery, PushNotificationContent content)
+}
+
+%% ==== Relationships (Service Dependencies) ====
+NotificationService --> NotificationBuilder : builds
+NotificationService --> NotificationEngine : notifies
+NotificationEngine --> NotificationStrategy : uses
+
+NotificationStrategy <|.. EmailStrategy
+NotificationStrategy <|.. SMSStrategy
+NotificationStrategy <|.. PushStrategy

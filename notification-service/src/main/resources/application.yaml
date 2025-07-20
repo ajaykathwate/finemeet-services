@@ -1,8 +1,9 @@
+
 #
 # Server Properties
 #
 server:
-  port: ${AUTH_SERVICE_SERVER_PORT}
+  port: ${NOTIFICATION_SERVICE_SERVER_PORT}
   tomcat:
     accept-count: 100            # Keep or adjust based on load
     max-connections: 8192        # Max sockets Tomcat will accept (default: 8192)
@@ -16,7 +17,7 @@ server:
 #
 spring:
   application:
-    name: auth-service
+    name: notification-service
 
   #
   # Database Properties
@@ -116,38 +117,10 @@ springdoc:
     enabled: true
 
 #
-# JWT Security Properties
-#
-jwt:
-  header: Authorization
-  secret: ${APP_JWT_SECRET}
-  expiration: 86400000 # 1 day
-  refresh:
-    secret: ${APP_JWT_REFRESH_SECRET}
-    expiration: 86400000 # 1 day
-
-#
-# Login Attempts Properties
-#
-login-attempts:
-  max-attempts: 5
-  lockout-duration-minutes: 60
-
-unlock-account-scheduler-cron: '0 0/5 * * * *' # every 5 minutes
-
-#
-# Temporary Cache
-#
-temporary-cache:
-  time:
-    token: 5
-  allow-token-fetch: true
-
-#
 # Logging Properties
 #
 logging:
   level:
     root: info
     org.hibernate.SQL: debug
-    com.finemeet.auth-service: debug
+    com.finemeet.notification-service: debug
