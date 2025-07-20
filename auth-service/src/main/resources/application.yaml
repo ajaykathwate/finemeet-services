@@ -16,7 +16,7 @@ server:
 #
 spring:
   application:
-    name: user-service
+    name: auth-service
 
   #
   # Database Properties
@@ -150,4 +150,4 @@ logging:
   level:
     root: info
     org.hibernate.SQL: debug
-    com.finemeet.user-service: debug
+    com.finemeet.auth-service: debug
