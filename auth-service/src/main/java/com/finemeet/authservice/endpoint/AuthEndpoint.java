@@ -6,7 +6,6 @@ import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.exception.dto.ApiResponse;
 import com.finemeet.authservice.exception.dto.ApiResponseCreator;
 import com.finemeet.authservice.service.VerificationEmailSender;
-import com.finemeet.authservice.token.TokenManager;
 import com.finemeet.authservice.token.TokenVerifier;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
