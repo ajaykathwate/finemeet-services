@@ -5,7 +5,7 @@ import com.finemeet.authservice.dto.UserRegistrationRequest;
 import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.exception.dto.ApiResponse;
 import com.finemeet.authservice.exception.dto.ApiResponseCreator;
-import com.finemeet.authservice.token.TokenManager;
+import com.finemeet.authservice.service.VerificationEmailSender;
 import com.finemeet.authservice.token.TokenVerifier;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,15 +23,15 @@ public class AuthEndpoint {
     public static final String AUTH_SERVICE_ENDPOINT_URL = "/api/auth/";
 
     private final ApiResponseCreator apiResponseCreator;
-    private final TokenManager tokenManager;
     private final TokenVerifier tokenVerifier;
+    private final VerificationEmailSender verificationEmailSender;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRegistrationRequest request) {
         String email = request.getEmail();
 
         log.info("Received registration request for user with email = '{}'", email);
-        String token = tokenManager.generateToken(request);
+        verificationEmailSender.sendVerificationCode(request);
 
         ApiResponse apiResponse = apiResponseCreator.buildResponse(
             String.format(
@@ -40,8 +40,7 @@ public class AuthEndpoint {
                 email
             ),
             true,
-            HttpStatus.OK,
-            token
+            HttpStatus.OK
         );
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);

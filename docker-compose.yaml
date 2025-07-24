@@ -53,46 +53,71 @@ services:
     networks:
       - finemeet-network
 
-  # 🧑‍💻 User Service
-#  user-service:
-#    image: user-service:latest
-#    container_name: user-service
-#    build:
-#      context: ./user-service
-#      dockerfile: Dockerfile
-#    ports:
-#      - "${USER_SERVICE_SERVER_PORT}:${USER_SERVICE_SERVER_PORT}"
-#    environment:
-#      # App profile
-#      - SPRING_PROFILES_ACTIVE=${USER_SERVICE_SPRING_PROFILES_ACTIVE}
-#      - USER_SERVICE_SERVER_PORT=${USER_SERVICE_SERVER_PORT}
-#      # DB config
-#      - DB_HOST=${DB_HOST}
-#      - DB_PORT=${DB_PORT}
-#      - DB_USERNAME=${DB_USERNAME}
-#      - DB_PASSWORD=${DB_PASSWORD}
-#      - DB_NAME=${USER_SERVICE_DATABASE_NAME}
-#      # Redis config
-#      - REDIS_HOST=${REDIS_HOST}
-#      - REDIS_PORT=${REDIS_PORT}
-#    depends_on:
-#      postgres:
-#        condition: service_healthy
-#    healthcheck:
-#      test: [ "CMD-SHELL", "curl -f http://localhost:1113/actuator/health || exit 1" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#    volumes:
-#      - user-service-maven-cache:/root/.m2
-#    networks:
-#      - finemeet-network
+  # 🚀 Kafka (KRaft mode, no Zookeeper)
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka
+    restart: unless-stopped
+    ports:
+      - "9092:9092"     # Internal communication
+      - "29092:29092"   # External communication
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,INTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092,INTERNAL://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM6Qk  # Example; can be anything (generated once)
+    volumes:
+      - kafka-data:/tmp/kraft-combined-logs
+    networks:
+      - kafka-network
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/29092"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # 🧩 Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "9090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: LocalKafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: ""  # Not needed in KRaft mode
+    depends_on:
+      - kafka
+    networks:
+      - kafka-network
+
+  # 🛠️ Kafka CLI (for debugging)
+  kafka-cli:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka-cli
+    entrypoint: ["sleep", "infinity"]
+    depends_on:
+      - kafka
+    networks:
+      - kafka-network
 
 networks:
   finemeet-network:
+    driver: bridge
+  kafka-network:
     driver: bridge
 
 volumes:
 #  user-service-maven-cache:
   pgdata:
   redisdata:
+  kafka-data:
