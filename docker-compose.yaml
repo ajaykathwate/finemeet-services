@@ -59,14 +59,14 @@ services:
     container_name: kafka
     restart: unless-stopped
     ports:
-      - "9092:9092"
-      - "29092:29092" # Internal use
+      - "9092:9092"     # Internal communication
+      - "29092:29092"   # External communication
     environment:
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_NODE_ID: 1
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,INTERNAL://kafka:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,INTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092,INTERNAL://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
@@ -74,26 +74,26 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
-      CLUSTER_ID: MkU3OEVBNTcwNTJENDM6Qk
-    healthcheck:
-      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/9092"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM6Qk  # Example; can be anything (generated once)
     volumes:
       - kafka-data:/tmp/kraft-combined-logs
     networks:
       - kafka-network
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo > /dev/tcp/localhost/29092"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   # 🧩 Kafka UI
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     ports:
-      - "9090:8080"  # Host:Container
+      - "9090:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: LocalKafka
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: ""  # Not needed in KRaft mode
     depends_on:
       - kafka
@@ -105,14 +105,10 @@ services:
     image: confluentinc/cp-kafka:7.6.0
     container_name: kafka-cli
     entrypoint: ["sleep", "infinity"]
-    environment:
-      - PATH=$PATH:/bin
-    working_dir: /bin
     depends_on:
       - kafka
     networks:
       - kafka-network
-
 
 networks:
   finemeet-network:
