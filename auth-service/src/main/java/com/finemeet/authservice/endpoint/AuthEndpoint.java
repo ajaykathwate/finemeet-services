@@ -33,7 +33,6 @@ public class AuthEndpoint {
         log.info("Received registration request for user with email = '{}'", email);
         verificationEmailSender.sendVerificationCode(request);
 
-
         ApiResponse apiResponse = apiResponseCreator.buildResponse(
             String.format(
                 "Email verification token sent to the user with email = %s%nIf You don't receive an email, " +
