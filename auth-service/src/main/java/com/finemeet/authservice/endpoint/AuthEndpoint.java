@@ -5,6 +5,7 @@ import com.finemeet.authservice.dto.UserRegistrationRequest;
 import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.exception.dto.ApiResponse;
 import com.finemeet.authservice.exception.dto.ApiResponseCreator;
+import com.finemeet.authservice.kafka.producer.NotificationProducerService;
 import com.finemeet.authservice.token.TokenManager;
 import com.finemeet.authservice.token.TokenVerifier;
 import jakarta.validation.Valid;
@@ -25,13 +26,15 @@ public class AuthEndpoint {
     private final ApiResponseCreator apiResponseCreator;
     private final TokenManager tokenManager;
     private final TokenVerifier tokenVerifier;
+    private final NotificationProducerService notificationProducerService;
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> register(@Valid @RequestBody UserRegistrationRequest request) {
         String email = request.getEmail();
 
         log.info("Received registration request for user with email = '{}'", email);
-        String token = tokenManager.generateToken(request);
+//        String token = tokenManager.generateToken(request);
+        notificationProducerService.sendUserRegisteredEvent(email);
 
         ApiResponse apiResponse = apiResponseCreator.buildResponse(
             String.format(
@@ -40,8 +43,7 @@ public class AuthEndpoint {
                 email
             ),
             true,
-            HttpStatus.OK,
-            token
+            HttpStatus.OK
         );
 
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
