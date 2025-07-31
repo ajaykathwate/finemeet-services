@@ -138,3 +138,40 @@ This project is licensed under the [MIT License](./LICENSE).
 
 Contributions, issues, and feature requests are welcome!
 Feel free to open a pull request or raise an issue.
+
+---
+
+## TODO
+1. Build actual Notification service now 
+   - Add Kafka consumer for email notifications
+   - Add design patterns as per design
+   - Add email templates
+   - Move common exceptions from auth/user service to common service
+   - Move Api Response to common service
+   
+
+2. Connect User service with auth service
+   - When user verifies token, connect with user-service and create that user in user service
+   - Email Notification setup in user-service
+   - Send welcome email to user when user is created in user-service
+
+
+3. Add Signin and forgot password endpoints
+    - Add signin in endpoint for auth-user
+    - add forgot password endpoint for auth-user
+    - streamline the auth-service response
+
+4. Add Test cases for all the services,
+   - Add test cases for user-service
+   - Add test cases for auth-service
+
+
+5. Build Frontend for this user register and login flow
+   - Add Login page
+   - Add user registration page
+   - Add user login page
+   - Add forgot password page
+   - Add reset password page
+   - Add user profile page -> after login/registration
+
+**Note:** Also conside In-App Notifications in future for real-time updates.
