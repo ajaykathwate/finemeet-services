@@ -1,7 +1,6 @@
 package com.finemeet.authservice.kafka.producer;
 
 import com.finemeet.authservice.kafka.config.KafkaTopicProperties;
-import com.finemeet.authservice.kafka.dto.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,7 +13,7 @@ public class NotificationProducerService {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaTopicProperties topicProperties;
 
-    public void sendUserRegisteredEvent(NotificationEvent notificationEvent) {
+    public void sendUserRegisteredEvent(com.finemeet.common.notification.NotificationEvent notificationEvent) {
         String topic = topicProperties.getProducer().getUserRegistered();
         try {
             kafkaTemplate.send(topic, notificationEvent.getRecipientId(), notificationEvent.toString());
