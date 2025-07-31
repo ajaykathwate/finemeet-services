@@ -1,10 +1,11 @@
-package com.finemeet.authservice.kafka.dto.validator;
+package com.finemeet.common.validator;
 
-import com.finemeet.authservice.kafka.dto.NotificationRecipient;
-import com.finemeet.authservice.kafka.dto.content.Content;
-import com.finemeet.authservice.kafka.dto.content.EmailContent;
-import com.finemeet.authservice.kafka.dto.content.PushContent;
-import com.finemeet.authservice.kafka.dto.content.SmsContent;
+import com.finemeet.common.enums.Channel;
+import com.finemeet.common.notification.NotificationRecipient;
+import com.finemeet.common.notification.content.Content;
+import com.finemeet.common.notification.content.EmailContent;
+import com.finemeet.common.notification.content.PushContent;
+import com.finemeet.common.notification.content.SmsContent;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -19,14 +20,18 @@ public class NotificationRecipientValidator implements ConstraintValidator<Valid
         Content content = recipient.getContent();
 
         switch (recipient.getChannel()) {
-            case EMAIL:
+            case Channel.EMAIL -> {
                 return content instanceof EmailContent;
-            case SMS:
+            }
+            case Channel.SMS -> {
                 return content instanceof SmsContent;
-            case PUSH:
+            }
+            case Channel.PUSH -> {
                 return content instanceof PushContent;
-            default:
+            }
+            default -> {
                 return false;
+            }
         }
     }
 }

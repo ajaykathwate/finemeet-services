@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.dto.validator;
+package com.finemeet.common.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

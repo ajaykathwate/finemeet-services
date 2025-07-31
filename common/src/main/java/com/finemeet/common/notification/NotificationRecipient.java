@@ -1,7 +1,9 @@
-package com.finemeet.authservice.kafka.dto;
+package com.finemeet.common.notification;
 
-import com.finemeet.authservice.kafka.dto.content.Content;
-import com.finemeet.authservice.kafka.dto.validator.ValidNotificationRecipient;
+
+import com.finemeet.common.enums.Channel;
+import com.finemeet.common.notification.content.Content;
+import com.finemeet.common.validator.ValidNotificationRecipient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

@@ -162,6 +162,12 @@ temporary-cache:
   allow-token-fetch: true
 
 #
+# Security Properties
+#
+verification:
+  base-url: ${AUTH_SERVICE_BASE_URL}
+
+#
 # Logging Properties
 #
 logging:

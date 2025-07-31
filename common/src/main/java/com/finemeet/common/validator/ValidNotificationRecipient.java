@@ -1,8 +1,7 @@
-package com.finemeet.authservice.kafka.dto.validator;
+package com.finemeet.common.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

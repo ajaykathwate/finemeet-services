@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.dto.content;
+package com.finemeet.common.notification.content;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

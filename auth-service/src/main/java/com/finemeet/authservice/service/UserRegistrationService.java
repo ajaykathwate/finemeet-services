@@ -7,7 +7,6 @@ import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.entity.AuthUser;
 import com.finemeet.authservice.jwt.JwtTokenProvider;
 import com.finemeet.authservice.repository.AuthUserRepository;
-import com.finemeet.authservice.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,13 +24,13 @@ public class UserRegistrationService {
     private final AuthUserRepository userCrudRepository;
     private final RegistrationDtoConverter registrationDtoConverter;
     private final PasswordEncoder passwordEncoder;
-    private final UserValidator userValidator;
+    private final RegistrationPreconditionChecker registrationPreconditionChecker;
 
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public UserRegistrationResponse register(final UserRegistrationRequest userRegistrationRequest) {
 
         // throw user already exists exception if email already exists
-        userValidator.throwIfEmailExists(userRegistrationRequest.getEmail());
+        registrationPreconditionChecker.checkEmailNotTaken(userRegistrationRequest.getEmail());
 
         String encryptedPassword = passwordEncoder.encode(userRegistrationRequest.getPassword());
 
