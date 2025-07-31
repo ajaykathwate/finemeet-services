@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.dto;
+package com.finemeet.common.enums;
 
 public enum NotificationEventType {
     USER_REGISTERED

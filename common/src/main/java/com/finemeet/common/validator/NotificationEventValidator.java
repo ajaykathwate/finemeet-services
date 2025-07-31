@@ -1,8 +1,8 @@
-package com.finemeet.authservice.kafka.dto.validator;
+package com.finemeet.common.validator;
 
-import com.finemeet.authservice.kafka.dto.Channel;
-import com.finemeet.authservice.kafka.dto.NotificationEvent;
-import com.finemeet.authservice.kafka.dto.NotificationRecipient;
+import com.finemeet.common.enums.Channel;
+import com.finemeet.common.notification.NotificationEvent;
+import com.finemeet.common.notification.NotificationRecipient;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.dto.content;
+package com.finemeet.common.notification.content;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
