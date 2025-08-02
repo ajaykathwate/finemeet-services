@@ -1,4 +1,4 @@
-package com.finemeet.authservice.service;
+package com.finemeet.authservice.utils;
 
 import com.finemeet.authservice.exception.ResourceAlreadyExistsException;
 import com.finemeet.authservice.repository.AuthUserRepository;

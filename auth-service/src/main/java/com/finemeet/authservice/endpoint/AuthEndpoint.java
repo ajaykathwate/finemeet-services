@@ -31,7 +31,7 @@ public class AuthEndpoint {
         String email = request.getEmail();
 
         log.info("Received registration request for user with email = '{}'", email);
-        verificationEmailNotifier.sendVerificationCode(request);
+        verificationEmailNotifier.publishEmailVerificationEvent(request);
 
         ApiResponse apiResponse = apiResponseCreator.buildResponse(
             String.format(
@@ -46,7 +46,7 @@ public class AuthEndpoint {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/verify")
+    @GetMapping(value = "/verify-token")
     public ResponseEntity<ApiResponse> confirmEmail(@RequestParam("token") String token){
         ConfirmTokenRequest request = new ConfirmTokenRequest(token);
 
