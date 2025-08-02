@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.config;
+package com.finemeet.authservice.broker.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.config;
+package com.finemeet.authservice.broker.config;
 
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;

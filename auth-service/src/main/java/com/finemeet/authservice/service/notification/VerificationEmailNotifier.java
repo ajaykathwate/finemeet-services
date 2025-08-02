@@ -1,9 +1,9 @@
 package com.finemeet.authservice.service.notification;
 
+import com.finemeet.authservice.broker.producer.NotificationProducerService;
 import com.finemeet.authservice.config.VerificationProperties;
 import com.finemeet.authservice.dto.UserRegistrationRequest;
-import com.finemeet.authservice.kafka.producer.NotificationProducerService;
-import com.finemeet.authservice.service.RegistrationPreconditionChecker;
+import com.finemeet.authservice.utils.RegistrationPreconditionChecker;
 import com.finemeet.authservice.token.TokenManager;
 import com.finemeet.common.notification.NotificationEvent;
 import com.finemeet.common.service.NotificationEventValidationService;
@@ -23,7 +23,7 @@ public class VerificationEmailNotifier {
     private final VerificationProperties verificationProperties;
     private final NotificationEventValidationService eventValidationService;
 
-    public void sendVerificationCode(final UserRegistrationRequest request) {
+    public void publishEmailVerificationEvent(final UserRegistrationRequest request) {
         String email = request.getEmail();
 
         // Unified precondition check
@@ -43,7 +43,7 @@ public class VerificationEmailNotifier {
             NotificationEventFactory.userRegisteredEvent(email, templateData);
         eventValidationService.validateOrThrow(notificationEvent);
 
-        notificationProducerService.sendUserRegisteredEvent(notificationEvent);
+        notificationProducerService.publishNotificationsEvent(notificationEvent);
         log.info("Generated Token for {} is: {}", request, token);
     }
 }

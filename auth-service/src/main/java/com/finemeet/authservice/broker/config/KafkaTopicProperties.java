@@ -1,4 +1,4 @@
-package com.finemeet.authservice.kafka.config;
+package com.finemeet.authservice.broker.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,15 @@ public class KafkaTopicProperties {
     @Getter
     @Setter
     public static class Producer {
-        private String userRegistered;
+        /**
+         * Primary notification events topic (e.g., email/push/sms envelopes).
+         */
+        private String notifications;
+
+        /**
+         * Dead-letter topic for failed notification deliveries.
+         */
+        private String notificationsDlq;
     }
 
     @Getter

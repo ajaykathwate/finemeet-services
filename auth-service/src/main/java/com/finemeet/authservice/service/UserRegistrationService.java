@@ -7,6 +7,7 @@ import com.finemeet.authservice.dto.UserRegistrationResponse;
 import com.finemeet.authservice.entity.AuthUser;
 import com.finemeet.authservice.jwt.JwtTokenProvider;
 import com.finemeet.authservice.repository.AuthUserRepository;
+import com.finemeet.authservice.utils.RegistrationPreconditionChecker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +39,6 @@ public class UserRegistrationService {
          * request has user-service data and entity has just email and password
          * so need ot handle this case to keep this other data somewhere and then pass to user-service
          */
-        UserRegistrationRequest originalRequest = userRegistrationRequest;
 
         AuthUser newUser = registrationDtoConverter.toEntity(userRegistrationRequest);
         newUser.setPassword(encryptedPassword);

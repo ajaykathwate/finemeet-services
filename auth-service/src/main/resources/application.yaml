@@ -80,10 +80,8 @@ app:
   kafka:
     topics:
       producer:
-        user-registered: email-verification-notification
-      consumer:
-        email-verification: email-verification-notification
-
+        notifications: notifications.events
+        notifications-dlq: notification.events.dlq
 
 #
 # Management Properties
