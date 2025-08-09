@@ -68,6 +68,24 @@ spring:
           max-wait: 2000
         shutdown-timeout: 100
 
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      group-id: notification-service-group
+      auto-offset-reset: latest
+      enable-auto-commit: false
+      properties:
+        max.poll.records: 1000
+        max.poll.interval.ms: 300000
+        session.timeout.ms: 10000
+
+app:
+  kafka:
+    topics:
+      consumer:
+        notifications: notifications.events
+        notifications-dlq: notification.events.dlq
+
 #
 # Management Properties
 #
