@@ -1,6 +1,8 @@
 package com.finemeet.authservice.broker.config;
 
 import java.util.Map;
+
+import com.finemeet.common.notification.NotificationEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -21,7 +23,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, NotificationEvent> producerFactory() {
         Map<String, Object> props = kafkaProperties.buildProducerProperties();
 
         // Additional safety & performance customizations
@@ -39,7 +41,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
+    public KafkaTemplate<String, NotificationEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

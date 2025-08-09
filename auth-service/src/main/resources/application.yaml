@@ -69,7 +69,7 @@ spring:
 
 
   kafka:
-    bootstrap-servers: localhost:29092 # Kafka broker address (in Docker/KRaft setup, no ZooKeeper)
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS} # Kafka broker address (in Docker/KRaft setup, no ZooKeeper)
     listener:
       concurrency: 3                   # Number of concurrent listener threads (ideally <= topic partitions)
       ack-mode: manual_immediate       # Manual ack after processing each record (for full offset control)
