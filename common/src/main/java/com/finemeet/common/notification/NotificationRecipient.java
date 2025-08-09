@@ -6,16 +6,15 @@ import com.finemeet.common.notification.content.Content;
 import com.finemeet.common.validator.ValidNotificationRecipient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @ToString
 @ValidNotificationRecipient
+@NoArgsConstructor
+@AllArgsConstructor
 public class NotificationRecipient {
 
     @NotNull
