@@ -1,6 +1,6 @@
 package com.finemeet.common.validator;
 
-import com.finemeet.common.enums.Channel;
+import com.finemeet.common.enums.NotificationChannelEnum;
 import com.finemeet.common.notification.NotificationEvent;
 import com.finemeet.common.notification.NotificationRecipient;
 import jakarta.validation.ConstraintValidator;
@@ -15,16 +15,16 @@ public class NotificationEventValidator implements ConstraintValidator<ValidNoti
     public boolean isValid(NotificationEvent event, ConstraintValidatorContext context) {
         if (event == null) return true;
 
-        List<Channel> channels = event.getChannels();
+        List<NotificationChannelEnum> channels = event.getChannels();
         List<NotificationRecipient> recipients = event.getRecipients();
 
         if (channels == null || recipients == null) return false;
 
-        Set<Channel> recipientChannels = recipients.stream()
+        Set<NotificationChannelEnum> recipientChannels = recipients.stream()
             .map(NotificationRecipient::getChannel)
             .collect(Collectors.toSet());
 
-        for (Channel channel : channels) {
+        for (NotificationChannelEnum channel : channels) {
             if (!recipientChannels.contains(channel)) {
                 context.disableDefaultConstraintViolation();
                 context.buildConstraintViolationWithTemplate("Missing recipient for channel: " + channel)

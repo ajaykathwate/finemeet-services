@@ -1,11 +1,10 @@
 package com.finemeet.common.validator;
 
-import com.finemeet.common.enums.Channel;
+import com.finemeet.common.enums.NotificationChannelEnum;
 import com.finemeet.common.notification.NotificationRecipient;
 import com.finemeet.common.notification.content.Content;
 import com.finemeet.common.notification.content.EmailContent;
 import com.finemeet.common.notification.content.PushContent;
-import com.finemeet.common.notification.content.SmsContent;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -20,13 +19,10 @@ public class NotificationRecipientValidator implements ConstraintValidator<Valid
         Content content = recipient.getContent();
 
         switch (recipient.getChannel()) {
-            case Channel.EMAIL -> {
+            case NotificationChannelEnum.EMAIL -> {
                 return content instanceof EmailContent;
             }
-            case Channel.SMS -> {
-                return content instanceof SmsContent;
-            }
-            case Channel.PUSH -> {
+            case NotificationChannelEnum.PUSH -> {
                 return content instanceof PushContent;
             }
             default -> {

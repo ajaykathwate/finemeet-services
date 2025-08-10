@@ -17,7 +17,7 @@ public class NotificationProducerService {
     public void publishNotificationsEvent(NotificationEvent notificationEvent) {
         String topic = topicProperties.getProducer().getNotifications();
         try {
-            kafkaTemplate.send(topic, notificationEvent.getRecipientId(), notificationEvent);
+            kafkaTemplate.send(topic, notificationEvent.getRecipientId().toString(), notificationEvent);
             log.info("Sent message to [{}] -> data={}", topic, notificationEvent);
         } catch (Exception e) {
             log.error("Failed to send message to topic [{}]: {}", topic, e.getMessage(), e);

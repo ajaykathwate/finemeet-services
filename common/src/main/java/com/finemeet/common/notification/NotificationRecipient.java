@@ -1,7 +1,7 @@
 package com.finemeet.common.notification;
 
 
-import com.finemeet.common.enums.Channel;
+import com.finemeet.common.enums.NotificationChannelEnum;
 import com.finemeet.common.notification.content.Content;
 import com.finemeet.common.validator.ValidNotificationRecipient;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ import lombok.*;
 public class NotificationRecipient {
 
     @NotNull
-    private Channel channel;
+    private NotificationChannelEnum channel;
 
     @NotNull
     private String recipient;

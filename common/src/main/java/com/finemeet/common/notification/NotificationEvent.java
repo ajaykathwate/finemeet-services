@@ -1,6 +1,6 @@
 package com.finemeet.common.notification;
 
-import com.finemeet.common.enums.Channel;
+import com.finemeet.common.enums.NotificationChannelEnum;
 import com.finemeet.common.enums.NotificationEventType;
 import com.finemeet.common.validator.ValidNotificationEvent;
 import jakarta.validation.Valid;
@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import lombok.*;
 
 @Getter
@@ -20,10 +21,10 @@ import lombok.*;
 @ValidNotificationEvent
 public class NotificationEvent {
     @NotNull
-    private String recipientId;
+    private UUID recipientId;
 
     @NotEmpty
-    private List<Channel> channels;
+    private List<NotificationChannelEnum> channels;
 
     @NotNull
     private NotificationEventType eventType;
