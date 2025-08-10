@@ -143,8 +143,10 @@ Feel free to open a pull request or raise an issue.
 
 ## TODO
 1. Build actual Notification service now 
-   - Add Kafka consumer for email notifications
+   - Add Kafka consumer for email notifications - Done
    - Add design patterns as per design
+     - Add builder pattern - Done
+     - Add Notification Engine
    - Add email templates
    - Move common exceptions from auth/user service to common service
    - Move Api Response to common service
