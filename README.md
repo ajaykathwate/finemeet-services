@@ -2,53 +2,31 @@
 
 FineMeet is a scalable, microservices-based meeting and collaboration platform that empowers teams and organizations to plan and manage meetings efficiently with built-in support for agenda, MOM (Minutes of Meeting), action points, user roles, notes, and Google Calendar sync.
 
----
+
 
 ## 🚀 Tech Stack
 
 - **Backend**: Java, Spring Boot (Microservices)
 - **Database**: PostgreSQL (per service DB)
 - **Cache**: Redis (Spring Cache)
-- **Auth**: JWT + Google OAuth 2.0 (coming soon)
+- **Auth**: JWT + Google OAuth 2.0 (future scope)
 - **Email**: SMTP integration for meeting invites
 - **Docs**: OpenAPI / Swagger
 - **Containerization**: Docker, Docker Compose
-- **CI/CD**: GitHub Actions (optional)
 
----
+
 
 ## 🏗️ Architecture
 
+Current Services
 - **user-service**: Handles user profile, roles, preferences
-- **org-service**: Manages organizations and their admins
-- **team-service**: Handles team creation, members, managers
-- **meeting-service**: Core of meeting logic (agenda, notes, MOM, action points)
-- *(future)* **auth-service**: JWT issuance, login, refresh tokens
-- *(future)* **notification-service**: Email & Slack notifications
+- **auth-service**: JWT issuance, login, refresh tokens
+- **notification-service**: Email notifications
+- **common-service**: Common/Shared service
 
 Each service uses its own isolated PostgreSQL database but can share Redis for caching.
 
----
 
-## 🧰 Features
-
-- User registration & login (JWT / Google OAuth)
-- Profile with photo, email, username
-- Organization creation, role-based admin & supervisors
-- Team creation, manager-based ownership
-- Meeting creation with:
-  - Agenda
-  - Attendees
-  - Action Points (public per attendee)
-  - Private/Public Notes
-  - MOM (Minutes of Meeting)
-  - Follow-up meetings
-- Internal/External member logic
-- Google Calendar integration (via Organizer’s account)
-- Email invites with meeting agenda
-- Redis-backed user summary caching
-
----
 
 ## 📦 Getting Started
 
@@ -67,19 +45,6 @@ docker-compose up --build
 
 > PostgreSQL, Redis, and pgAdmin will spin up for development.
 
----
-
-## 🌐 API Documentation
-
-Each service is Swagger-enabled. Visit the Swagger UI:
-
-* `user-service`: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
-* `org-service`: [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
-* `team-service`: [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html)
-* `meeting-service`: [http://localhost:8084/swagger-ui.html](http://localhost:8084/swagger-ui.html)
-
----
-
 ## 🛠️ Environment Variables
 
 Each service uses `application.yaml` with support for ENV overrides via `.env` files.
@@ -97,8 +62,6 @@ REDIS_PORT=6379
 SPRING_PROFILES_ACTIVE=dev
 ```
 
----
-
 ## 🐘 pgAdmin Access
 
 * **URL**: [http://localhost:5050](http://localhost:5050)
@@ -107,7 +70,6 @@ SPRING_PROFILES_ACTIVE=dev
 * **Host**: `postgres`
 * **Port**: `5432`
 
----
 
 ## 🧪 Health Check Endpoints
 
@@ -124,7 +86,6 @@ GET /actuator/info
 
 This project is licensed under the [MIT License](./LICENSE).
 
----
 
 ## 👨‍💻 Author
 
@@ -132,7 +93,6 @@ This project is licensed under the [MIT License](./LICENSE).
 **[LinkedIn](https://www.linkedin.com/in/ajaykathwate) | [GitHub](https://github.com/ajaykathwate)**
 
 
----
 
 ## 🤝 Contributing
 
